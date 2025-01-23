@@ -34,7 +34,7 @@ jobs:
       run: python "Import Request/import_requests.py"
 
     - name: Upload PDF artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: job-listings
         path: Import Request/results/*.pdf
