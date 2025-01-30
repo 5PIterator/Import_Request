@@ -22,16 +22,25 @@ jobs:
         python -m pip install --upgrade pip
         pip install beautifulsoup4 reportlab aiohttp
 
-    - name: Install Arial font
+    - name: Install DejaVu fonts
       run: |
         sudo apt-get update
-        sudo apt-get install -y fonts-liberation
-        mkdir -p ~/.fonts
-        cp /usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf ~/.fonts/arial.ttf
-        fc-cache -f -v
+        sudo apt-get install -y fonts-dejavu
+        mkdir -p "Import Request/fonts"
+        cp /usr/share/fonts/truetype/dejavu/DejaVuSans.ttf "Import Request/fonts/"
 
     - name: Run scraper
       run: python "Import Request/import_requests.py"
+
+    - name: Configure Git
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+
+    - name: Commit and push if there are changes
+      run: |
+        git add "Import Request/results/"
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update job listings $(date +'%Y-%m-%d')" && git push)
 
     - name: Upload PDF artifact
       uses: actions/upload-artifact@v4

@@ -1,0 +1,5 @@
+# Ignore PDF files in results directory
+Import Request/results/*.pdf
+
+# But keep the directory
+!Import Request/results/.gitkeep
