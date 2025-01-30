@@ -23,16 +23,15 @@ headers = {
 }
 
 # Vytvoření PDF souboru
-pdf_filename = os.path.dirname(__file__) + "\\results\\" + f"job_listings_python_{datetime.datetime.now().strftime('%Y-%m-%d')}.pdf"
+pdf_filename = os.path.dirname(__file__) + "/results/" + f"job_listings_python_{datetime.datetime.now().strftime('%Y-%m-%d')}.pdf"
 if not os.path.exists(os.path.dirname(pdf_filename)):
     os.makedirs(os.path.dirname(pdf_filename))
 doc = SimpleDocTemplate(pdf_filename, pagesize=letter, leftMargin=20, rightMargin=20, topMargin=30, bottomMargin=30)
 elements = []
 
-# Registrace fontu Arial
-pdfmetrics.registerFont(TTFont('Arial', 'C:/Windows/Fonts/arial.ttf'))
+# Use default Helvetica font instead of Arial
 styles = getSampleStyleSheet()
-styles.add(ParagraphStyle(name='Arial', fontName='Arial', fontSize=10))
+styles.add(ParagraphStyle(name='CustomStyle', fontName='Helvetica', fontSize=10))
 
 async def fetch(session, url):
     print(f"Fetching URL: {url}")
@@ -72,11 +71,11 @@ async def main():
 
         job_details = await asyncio.gather(*job_tasks)
         for job_detail_title, company, location, description in job_details:
-            elements.append(Paragraph(f"Název pozice: {job_detail_title}", styles['Arial']))
-            elements.append(Paragraph(f"Společnost: {company}", styles['Arial']))
-            elements.append(Paragraph(f"Lokalita: {location}", styles['Arial']))
-            elements.append(Paragraph(f"Popis:", styles['Arial']))
-            elements.append(Paragraph(f"{description}", styles['Arial']))
+            elements.append(Paragraph(f"Název pozice: {job_detail_title}", styles['CustomStyle']))
+            elements.append(Paragraph(f"Společnost: {company}", styles['CustomStyle']))
+            elements.append(Paragraph(f"Lokalita: {location}", styles['CustomStyle']))
+            elements.append(Paragraph(f"Popis:", styles['CustomStyle']))
+            elements.append(Paragraph(f"{description}", styles['CustomStyle']))
             elements.append(Spacer(1, 12))
 
     doc.build(elements)
