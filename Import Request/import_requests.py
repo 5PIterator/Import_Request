@@ -29,9 +29,16 @@ if not os.path.exists(os.path.dirname(pdf_filename)):
 doc = SimpleDocTemplate(pdf_filename, pagesize=letter, leftMargin=20, rightMargin=20, topMargin=30, bottomMargin=30)
 elements = []
 
-# Use default Helvetica font instead of Arial
+# Register DejaVuSans font for UTF-8 support
+font_path = os.path.join(os.path.dirname(__file__), 'fonts', 'DejaVuSans.ttf')
+pdfmetrics.registerFont(TTFont('DejaVuSans', font_path))
 styles = getSampleStyleSheet()
-styles.add(ParagraphStyle(name='CustomStyle', fontName='Helvetica', fontSize=10))
+styles.add(ParagraphStyle(
+    name='CustomStyle',
+    fontName='DejaVuSans',
+    fontSize=10,
+    encoding='UTF-8'
+))
 
 async def fetch(session, url):
     print(f"Fetching URL: {url}")
